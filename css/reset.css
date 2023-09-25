@@ -15,3 +15,19 @@ body{
     align-items: center;
     justify-content: space-between;
 }
+
+input, select, button{
+    border: 0;
+    outline: 0;
+    border-radius: 6px;
+    width: 220px;
+    padding: 1rem;
+    font-size: 1em;
+    box-shadow: 0px 0px 2px #fff;
+
+    transition: box-shadow 0.5s ease-in-out;
+}
+
+input:focus, select:focus{
+    box-shadow: inset 1px 1px 3px #777777;
+}
