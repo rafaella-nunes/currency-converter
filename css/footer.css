@@ -1,0 +1,12 @@
+footer{
+    width: 100%;
+    background-color: #2d6149;
+    padding: 10px;
+    text-align: center;
+}
+
+footer span{
+    color: #fff;
+    font-size: 1em;
+    font-weight: 500;
+}
