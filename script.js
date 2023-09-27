@@ -24,12 +24,15 @@ function converter(){
     if (selectedCurrency.value === 'eur'){
         convertedValue = inputValue.value * 0.95;
         result.innerHTML = valueFormater('USD', 'EUR');
+        animateResult();
     }else if(selectedCurrency.value === 'brl'){
         convertedValue = inputValue.value * 5.02;
         result.innerHTML = valueFormater('USD', 'BRL');
+        animateResult();
     }else if(selectedCurrency.value === 'krw'){
         convertedValue = inputValue.value * 1354.39;
         result.innerHTML = valueFormater('USD', 'KRW');
+        animateResult();
     }
     inputValue.value = '';
     selectedCurrency.value = '';
@@ -39,3 +42,10 @@ function valueFormater(locale, currency){
     const value = convertedValue.toLocaleString(`${locale}`, {style: 'currency', currency: `${currency}`});
     return `<span>💲</span> ${value} <span>💲</span> `;
 };
+
+function animateResult(){
+    return result.animate([
+        {transform: 'translateY(-150px)'},
+        {transform: 'translateY(0px)'}
+    ], {duration: 500})
+}
