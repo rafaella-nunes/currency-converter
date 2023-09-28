@@ -6,46 +6,63 @@ const selectedCurrency = document.getElementById('currency');
 const result = document.getElementById('result');
 let convertedValue = 0;
 
-function handleSubmit(e){
-    e.preventDefault();
-    if(!inputValue.value || inputValue.value < 0){
-        alert('Valor invalido. Informe um valor correto!');
-        return;
+// TODO: Obter taxas de conversão de uma API externa em caso de conexão disponível
+// Taxas de conversão
+const currencyRates = {
+	'EUR': 0.95,
+	'BRL': 5.02,
+	'KRW': 1354.39
+}
+
+function handleSubmit(event) {
+    event.preventDefault();
+	errors = []; // Lista contendo os erros de preenchimento
+
+	// Verifica se o valor inserido é válido (value > 0 == true), e então insere o erro na lista
+    if (!Number(inputValue.value)) { 
+        errors.push('Informe um valor correto!');
     }
-    else if(!selectedCurrency.value){
-        alert('Escolha uma moeda.');
-        return;
+	
+	// Verifica se a moeda foi selecionada, e então insere o erro na lista
+	if(!selectedCurrency.value){
+        errors.push('Escolha uma moeda.');
     }
 
+	// Verifica existe algum erro a ser exibido
+	if (errors.length) {
+		alert(errors.join('\n'));
+		return;
+	}
+
+	// Chama a função de conversão
     converter();
 };
 
-function converter(){
-    if (selectedCurrency.value === 'eur'){
-        convertedValue = inputValue.value * 0.95;
-        result.innerHTML = valueFormater('USD', 'EUR');
-        animateResult();
-    }else if(selectedCurrency.value === 'brl'){
-        convertedValue = inputValue.value * 5.02;
-        result.innerHTML = valueFormater('USD', 'BRL');
-        animateResult();
-    }else if(selectedCurrency.value === 'krw'){
-        convertedValue = inputValue.value * 1354.39;
-        result.innerHTML = valueFormater('USD', 'KRW');
-        animateResult();
-    }
+function converter() {
+
+	// Extração do valor inserido e da moeda selecionada
+	convertedValue = inputValue.value * currencyRates[selectedCurrency.value];
+
+	// Exibição do resultado
+    result.innerHTML = valueFormater(selectedCurrency.value);
+
+	// Animação do resultado
+	animateResult();
+
+	// Limpa os campos
     inputValue.value = '';
     selectedCurrency.value = '';
 };
 
-function valueFormater(locale, currency){
-    const value = convertedValue.toLocaleString(`${locale}`, {style: 'currency', currency: `${currency}`});
+function valueFormater(currency) {
+    const value = convertedValue.toLocaleString('USD', {style: 'currency', currency: `${currency}`});
     return `<span>💲</span> ${value} <span>💲</span> `;
 };
 
-function animateResult(){
-    return result.animate([
-        {transform: 'translateY(-150px)'},
-        {transform: 'translateY(0px)'}
-    ], {duration: 500})
+function animateResult() {
+    return result.animate(
+		[
+        	{ transform: 'translateY(-150px)' },
+     		{ transform: 'translateY(0px)' }
+    	], { duration: 500 })
 }
